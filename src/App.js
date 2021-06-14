@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+/** Main app */
 
-function App() {
+import {
+  CssBaseline,
+  responsiveFontSizes,
+  ThemeProvider,
+  useTheme,
+} from "@material-ui/core";
+import { useState } from "react";
+
+import "./App.css";
+import AddTodo from "./components/AddTodo";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import TodoList from "./components/TodoList";
+import VisibilityFilters from "./components/VisibilityFilters";
+import TodosProvider from "./context";
+
+const App = () => {
+  const [filter, setFilter] = useState("SHOW_ALL");
+  const theme = useTheme();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={responsiveFontSizes(theme)}>
+      <CssBaseline />
+      <div className="App">
+        <Header />
+        <div style={{ flex: 1, margin: "auto", maxWidth: 600, width: "100%" }}>
+          <TodosProvider>
+            <AddTodo />
+            <TodoList filter={filter} />
+            <VisibilityFilters filter={filter} setFilter={setFilter} />
+          </TodosProvider>
+        </div>
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
